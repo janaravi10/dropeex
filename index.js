@@ -9,33 +9,36 @@ app.use("/static", express.static(path.join(__dirname, "image")));
 app.use(express.json({ limit: "50mb" }));
 app.post("/uploadImage", (req, res) => {
   if (!fs.existsSync(__dirname + "/image/" + req.body.image.productId)) {
-    fs.mkdirSync(__dirname + "/image/" + req.body.image.productId);
+    fs.mkdir(__dirname + "/image/" + req.body.image.productId, processImage);
   } else {
     deleteFolderRecursive(__dirname + "/image/" + req.body.image.productId);
+    fs.mkdir(__dirname + "/image/" + req.body.image.productId, processImage);
   }
   //   req.body.image.forEach(element => {});
-  var object = { default: [] };
-  req.body.image.default.forEach(element => {
-    object.default.push(
-      base64Img.imgSync(
-        element,
-        __dirname + "/image/" + req.body.image.productId,
-        uniqid() + ""
-      )
-    );
-  });
-  object.variants = req.body.image.variants.map(element => {
-    var objName = {};
-    for (const key in element) {
-      objName[key] = base64Img.imgSync(
-        element[key],
-        __dirname + "/image/" + req.body.image.productId,
-        uniqid() + ""
+  function processImage() {
+    var object = { default: [] };
+    req.body.image.default.forEach(element => {
+      object.default.push(
+        base64Img.imgSync(
+          element,
+          __dirname + "/image/" + req.body.image.productId,
+          uniqid() + ""
+        )
       );
-    }
-    return objName;
-  });
-  res.send(object);
+    });
+    object.variants = req.body.image.variants.map(element => {
+      var objName = {};
+      for (const key in element) {
+        objName[key] = base64Img.imgSync(
+          element[key],
+          __dirname + "/image/" + req.body.image.productId,
+          uniqid() + ""
+        );
+      }
+      return objName;
+    });
+    res.send(object);
+  }
 });
 app.get("/getImage", (req, res) => {
   fs.readFile(__dirname + "/hello/temp.txt", "utf-8", (err, data) => {
