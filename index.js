@@ -1,7 +1,7 @@
 const express = require("express"),
   fs = require("fs"),
   app = express(),
-  port = 3000;
+  port = process.env.PORT||3000;
 
 app.post("/uploadImage", (req, res) => {
   fs.mkdir(__dirname + "/hello", err => {
