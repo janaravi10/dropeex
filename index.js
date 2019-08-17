@@ -28,7 +28,7 @@ app.post("/uploadImage", (req, res) => {
         )
       );
     });
-    if (object.variants) {
+    if (req.body.image.variants) {
       object.variants = req.body.image.variants.map(element => {
         var objName = {};
         for (const key in element) {
