@@ -6,7 +6,7 @@ const express = require("express"),
   base64Img = require("base64-img"),
   uniqid = require("uniqid"),
   cors = require("cors");
-  app.use(cors())
+app.use(cors());
 app.use("/static", express.static(path.join(__dirname, "image")));
 app.use(express.json({ limit: "50mb" }));
 app.post("/uploadImage", (req, res) => {
@@ -28,17 +28,20 @@ app.post("/uploadImage", (req, res) => {
         )
       );
     });
-    object.variants = req.body.image.variants.map(element => {
-      var objName = {};
-      for (const key in element) {
-        objName[key] = base64Img.imgSync(
-          element[key],
-          __dirname + "/image/" + req.body.image.productId,
-          uniqid() + ""
-        );
-      }
-      return objName;
-    });
+    if (object.variants) {
+      object.variants = req.body.image.variants.map(element => {
+        var objName = {};
+        for (const key in element) {
+          objName[key] = base64Img.imgSync(
+            element[key],
+            __dirname + "/image/" + req.body.image.productId,
+            uniqid() + ""
+          );
+        }
+        return objName;
+      });
+    }
+
     res.send(object);
   }
 });
