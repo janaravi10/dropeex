@@ -8,8 +8,10 @@ const express = require("express"),
   cors = require("cors");
 app.use(cors());
 app.use("/static", express.static(path.join(__dirname, "image")));
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: "100mb" }));
+app.use(express.urlencoded({ limit: "100mb",extended: false }));
 app.post("/uploadImage", (req, res) => {
+  if (!req.body) res.sendStatus(501).send("No request body");
   if (!fs.existsSync(__dirname + "/image/" + req.body.image.productId)) {
     fs.mkdir(__dirname + "/image/" + req.body.image.productId, processImage);
   } else {
