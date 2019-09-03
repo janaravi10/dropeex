@@ -63,12 +63,13 @@ app.post("/uploadImage", (req, res) => {
         base64Img.img(
           element,
           __dirname + "/image/" + req.body.image.productId,
-          uniqid() + "", resolve)
+          uniqid() + "", (err, filePath) => resolve(filePath))
       })
     })).then(result => {
       // getting the result of the image default and concating it int he 
       // object 
-      object.default.concat(result);
+      object.default = result;
+      // console.log(object);
       if (req.body.image.variants) {
         Promise.all(req.body.image.variants.map(element => {
           return new Promise((resolve, reject) => {
@@ -88,9 +89,9 @@ app.post("/uploadImage", (req, res) => {
                 base64Img.img(
                   arr[1],
                   __dirname + "/image/" + req.body.image.productId,
-                  uniqid() + "", resolve
+                  uniqid() + "", (err, filePath) => resolve(filePath)
                 )
-              })
+              });
             })).then(variantRes => {
               var objName = {};
               convertedData.forEach((arr, index) => {
@@ -106,7 +107,6 @@ app.post("/uploadImage", (req, res) => {
         })
       } else {
         res.send(object);
-
       }
     })
   }
