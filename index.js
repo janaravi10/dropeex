@@ -3,6 +3,7 @@ const express = require("express"),
   app = express(),
   path = require("path"),
   port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000, //For open shift added env variable
+  ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
   base64Img = require("base64-img"),
   uniqid = require("uniqid"),
   cors = require("cors");
@@ -123,7 +124,7 @@ app.get("/getImage", (req, res) => {
     console.log(data);
   });
 });
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, ip, () => console.log(`Example app listening on port ${port}!`));
 
 function deleteFolderRecursive(path) {
   if (fs.existsSync(path)) {
