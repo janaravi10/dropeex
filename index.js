@@ -124,7 +124,6 @@ app.get("/getImage", (req, res) => {
     console.log(data);
   });
 });
-app.listen(port, ip, () => console.log(`Example app listening on port ${port}!`));
 
 function deleteFolderRecursive(path) {
   if (fs.existsSync(path)) {
@@ -141,3 +140,5 @@ function deleteFolderRecursive(path) {
     fs.rmdirSync(path);
   }
 }
+app.listen(port, ip);
+console.log(`Example app listening on port ${port}!`)
