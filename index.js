@@ -15,6 +15,9 @@ app.use(express.urlencoded({
   limit: "100mb",
   extended: false
 }));
+app.get("/", (req, res) => {
+  res.send("HELLOW");
+})
 app.post("/uploadImage", (req, res) => {
   if (!req.body) res.sendStatus(501).send("No request body");
   if (!fs.existsSync(__dirname + "/image/" + req.body.image.productId)) {
