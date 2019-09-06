@@ -2,8 +2,8 @@ const express = require("express"),
   fs = require("fs"),
   app = express(),
   path = require("path"),
-  port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000, //For open shift added env variable
-  ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+  port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080, //For open shift added env variable
+  ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1",
   base64Img = require("base64-img"),
   uniqid = require("uniqid"),
   cors = require("cors");
@@ -16,9 +16,17 @@ app.use(express.urlencoded({
   limit: "100mb",
   extended: false
 }));
+// CHecking code
 app.get("/", (req, res) => {
-  res.send("HELLOW");
+  res.send("HELLO World");
 })
+app.get("/uploadImage", (req, res) => {
+  res.send({
+    res: "Just checking if this is working."
+  });
+});
+
+
 app.post("/uploadImage", (req, res) => {
   if (!req.body) res.sendStatus(501).send("No request body");
   if (!fs.existsSync(__dirname + "/image/" + req.body.image.productId)) {
@@ -140,6 +148,8 @@ function deleteFolderRecursive(path) {
     fs.rmdirSync(path);
   }
 }
-app.listen(port, ip);
-console.log(`Example app listening on port ${port}!`);
+console.log(port, ip, " --- port and ip -----");
+app.listen(port, ip, () => {
+  console.log("server started")
+});
 module.exports = app;
