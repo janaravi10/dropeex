@@ -98,11 +98,18 @@ app.post("/uploadImage", (req, res) => {
             // after with the result sent it to the client
             Promise.all(convertedData.map(function (arr) {
               return new Promise((resolve, reject) => {
-                base64Img.img(
-                  arr[1],
-                  __dirname + "/image/" + req.body.image.productId,
-                  uniqid() + "", (err, filePath) => resolve(filePath)
-                )
+                // Save all sepearate variant image
+                Promise.all(arr[1].map(varImg => {
+                  return new Promise((varResolve, varReject) => {
+                    base64Img.img(
+                      varImg,
+                      __dirname + "/image/" + req.body.image.productId,
+                      uniqid() + "", (err, filePath) => varResolve(filePath)
+                    )
+                  })
+                })).then(allVarImg => {
+                  resolve(allVarImg);
+                })
               });
             })).then(variantRes => {
               var objName = {};
