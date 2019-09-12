@@ -3,7 +3,7 @@ const express = require("express"),
   app = express(),
   path = require("path"),
   port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080, //For open shift added env variable
-  ip = process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "127.0.0.1",
+  // ip = process.env.OPENSHIFT_NODEJS_IP || process.env.IP || "127.0.0.1",
   base64Img = require("base64-img"),
   uniqid = require("uniqid"),
   cors = require("cors");
@@ -155,8 +155,8 @@ function deleteFolderRecursive(path) {
     fs.rmdirSync(path);
   }
 }
-console.log(port, ip, " --- port and ip -----");
-app.listen(port, ip, () => {
+// console.log(port, ip, " --- port and ip -----");
+app.listen(port, () => {
   console.log("server started")
 });
 module.exports = app;
