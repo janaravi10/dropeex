@@ -17,9 +17,9 @@ app.use(express.urlencoded({
   extended: false
 }));
 // CHecking code
-app.get("/", (req, res) => {
-  res.send("HELLO World");
-})
+app.get("/CHECKUNINSTALL", (req, res) => {
+  res.send("YES");
+});
 app.get("/uploadImage", (req, res) => {
   res.send({
     res: "Just checking if this is working."
@@ -155,7 +155,6 @@ function deleteFolderRecursive(path) {
     fs.rmdirSync(path);
   }
 }
-// console.log(port, ip, " --- port and ip -----");
 app.listen(port, () => {
   console.log("server started")
 });
