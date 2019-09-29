@@ -18,7 +18,7 @@ app.use(express.urlencoded({
 }));
 // CHecking code
 app.get("/CHECKUNINSTALL", (req, res) => {
-  res.send("YES");
+  res.send("NO");
 });
 app.get("/uploadImage", (req, res) => {
   res.send({
